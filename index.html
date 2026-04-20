@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Skills Test</title>
+   <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+
+       <py-config>
+
+        packages = ['numpy', 'matplotlib']
+
+    </py-config>
+
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: azure;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #708fae;
+  color: rgb(169, 190, 210);
+  border-radius: 4px;
+  border: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+.container {
+  background-color: rgb(205, 218, 240); 
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}
+</style>
+</head>
+
+<div class="container">
+  <h1>Attendance tracker</h1>
+    <select id="class_day">
+      <option value="monday">Monday</option>
+      <option value="tuesday">Tuesday</option>
+      <option value="wednesday">Wednesday</option>
+      <option value="thursday">Thursday</option>
+      <option value="friday">Friday</option>
+    </select>
+
+    <br>
+    <br>
+    <h2>Absences</h2>
+    <input type="text" id="absence_input" placeholder="number of absences">
+    <br>
+    <button py-click="sign_in">Submit</button>
+
+  <div id="output"></div>
+</div>
+
+<py-script src="main.py" append="false"></py-script>
+
+<body>
+</body>
+</html>
+from pyscript import display, document
+import matplotlib.pyplot as plt
+import logging
+
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
+
+days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+absences = [1, 2, 3, 4, 5]
+
+def sign_in(e):
+    selected_day = document.getElementById("class_day").value
+    new_value = document.getElementById("absence_input").value
+    
+    try:
+        day_index = [d.lower() for d in days].index(selected_day.lower())
+        absences[day_index] = float(new_value)
+    except:
+        pass
+
+    plt.clf()
+    plt.plot(days, absences)
+    plt.title('Days of the Week')
+
+    display(plt, target="output", append=False)
 
